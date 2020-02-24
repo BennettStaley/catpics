@@ -2,10 +2,17 @@
 
 ## Installation
 
-    1. Bootstrap: "yarn"
-    2a. dev: "yarn dev" for dev env
-    2b. "yarn build && yarn start" for prod build
+    1. Clone this repository and CD into it
+    2. Bootstrap node_modules, run "yarn" in this folder
 
+    next you can run dev...
+    2a. "yarn dev"
+
+    or run production....
+    2b. "yarn build && yarn start"
+
+
+    and lastly, run tests...
     3. "yarn jest" for tests (very few)
 
 notes: `yarn` can be swapped for npm, i just use yarn.
@@ -23,10 +30,14 @@ Not Addressed:
 
     - SSL/HTTPS
     - verifying the base64 on the server
-    - md5 hashing of base?
+    - md5 hashing of base? could protect unwitting users, all img requests are verified as known good.
     - potential mimetype spoof with malicious base64?
 
 ## Improvements
+
+    - code cleanup, error handling
+
+    - graphQl!
 
     - rearanging? reordering?
     - editing name
@@ -86,9 +97,11 @@ fuse / react-use-fuse:
 ## Other notes
 
 Expansions I can see would be search indexes and using 3rd party, serverside search.
+
 An easy win would be a DB hosting service, but for the sake of making this public I opted not to.
+
 Obviously storing the images IN MEMORY on the server is a terrible, useless idea. But... here we are.
 
-I used the cat from that meme, see here:
+I used the cat from that one meme. His name is Smudge, Apparently.
 
-https://imgur.com/MqPUTky
+![Image of Goblin Cat](https://i.kym-cdn.com/photos/images/newsfeed/001/535/422/b8d.jpg)
