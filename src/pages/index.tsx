@@ -9,7 +9,7 @@ import { Typography } from '@material-ui/core';
 import { useUploader } from '../hooks/useUploader';
 import useFuse from 'react-use-fuse';
 import axios from 'axios';
-// import { NightmodeSwitch } from '../components/nightmodeSwitch';
+import { NightmodeSwitch } from '../components/nightmodeSwitch';
 
 export const IndexBase = ({
   className,
@@ -126,7 +126,7 @@ export const IndexBase = ({
             );
           })}
         </div>
-        {/* <NightmodeSwitch /> */}
+        <NightmodeSwitch />
       </Gutter>
     </div>
   );

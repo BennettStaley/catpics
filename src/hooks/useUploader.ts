@@ -158,6 +158,8 @@ export const useUploader = ({
             return;
           } else {
             setLoading(true);
+            setError(false); // thus far, no error
+
             // reader is only used for local image as base64 string
             const reader = new FileReader();
             reader.readAsDataURL(file);

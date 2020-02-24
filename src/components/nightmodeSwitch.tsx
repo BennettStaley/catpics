@@ -1,9 +1,33 @@
 import styled from 'styled-components';
-import { Switch, Paper, Typography } from '@material-ui/core';
-import { useState, SyntheticEvent } from 'react';
+import { Switch, Paper, Typography, Theme } from '@material-ui/core';
+import { useEffect, useState, SyntheticEvent, useContext } from 'react';
+import { ThemeContext } from '../pages/_app';
 
 const NightmodeSwitchBase = ({ className }: { className?: string }) => {
-  const [nightmodeOn, setNightModeOn] = useState(true);
+  const [theme, setTheme] = useContext(ThemeContext);
+  const [nightmodeOn, setNightModeOn] = useState(false);
+
+  useEffect(() => {
+    if (nightmodeOn) {
+      console.log('on');
+      setTheme({
+        ...theme,
+        palette: {
+          ...theme.palette,
+          type: 'dark',
+        },
+      } as Partial<Theme>);
+    } else {
+      setTheme({
+        ...theme,
+        palette: {
+          ...theme.palette,
+          type: 'light',
+        },
+      } as Partial<Theme>);
+    }
+  }, [nightmodeOn]);
+
   return (
     <Paper className={className}>
       <Switch

@@ -1,44 +1,61 @@
 import NextApp from 'next/app';
-import React from 'react';
+import React, { useState, createContext, ReactNode } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import {
+  Theme,
   ThemeProvider as MaterialThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const theme = {
-  ...createMuiTheme({
-    palette: {
-      common: { black: '#000', white: '#fff' },
-      background: { paper: '#fff', default: '#fafafa' },
-      primary: {
-        light: 'rgba(250, 128, 119, 1)',
-        main: 'rgba(244, 67, 54, 1)',
-        dark: 'rgba(211, 47, 47, 1)',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: 'rgba(99, 202, 250, 1)',
-        main: 'rgba(3, 169, 244, 1)',
-        dark: 'rgba(0, 116, 168, 1)',
-        contrastText: '#fff',
-      },
-      error: {
-        light: '#e57373',
-        main: '#f44336',
-        dark: '#d32f2f',
-        contrastText: '#fff',
-      },
-      text: {
-        primary: 'rgba(0, 0, 0, 0.87)',
-        secondary: 'rgba(0, 0, 0, 0.54)',
-        disabled: 'rgba(0, 0, 0, 0.38)',
-        hint: 'rgba(0, 0, 0, 0.38)',
-      },
+type ThemeContextType = [Partial<Theme>, (e: Partial<Theme>) => void];
+
+const defaultTheme = {
+  palette: {
+    type: 'light',
+    primary: {
+      light: 'rgba(250, 128, 119, 1)',
+      main: 'rgba(244, 67, 54, 1)',
+      dark: 'rgba(211, 47, 47, 1)',
     },
-  }),
+    secondary: {
+      light: 'rgba(99, 202, 250, 1)',
+      main: 'rgba(3, 169, 244, 1)',
+      dark: 'rgba(0, 116, 168, 1)',
+      contrastText: '#fff',
+    },
+    error: {
+      light: '#e57373',
+      main: '#f44336',
+      dark: '#d32f2f',
+      contrastText: '#fff',
+    },
+  },
+};
+
+export const ThemeContext = createContext<ThemeContextType>([
+  defaultTheme as Partial<Theme>,
+  () => {},
+]);
+
+const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
+  const [themeState, setThemeState] = useState(defaultTheme as Partial<Theme>);
+
+  const MUITheme = {
+    ...createMuiTheme(themeState as Partial<Theme>),
+  };
+
+  return (
+    <ThemeContext.Provider value={[themeState, setThemeState]}>
+      <MaterialThemeProvider theme={MUITheme}>
+        <StyledThemeProvider theme={MUITheme}>
+          <CssBaseline />
+          {children}
+        </StyledThemeProvider>
+      </MaterialThemeProvider>
+    </ThemeContext.Provider>
+  );
 };
 
 export default class App extends NextApp {
@@ -52,12 +69,10 @@ export default class App extends NextApp {
     const { Component, pageProps } = this.props;
 
     return (
-      <MaterialThemeProvider theme={theme}>
-        <StyledThemeProvider theme={theme}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </StyledThemeProvider>
-      </MaterialThemeProvider>
+      <ThemeContextProvider>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeContextProvider>
     );
   }
 }
