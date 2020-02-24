@@ -1,0 +1,3 @@
+interface HandleNameChangeInterface {
+  target: HTMLInputElement;
+}
